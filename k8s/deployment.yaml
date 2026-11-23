@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sarah-cat
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sarah-cat
+  template:
+    metadata:
+      labels:
+        app: sarah-cat
+    spec:
+      containers:
+      - name: sarah-cat
+        image: msarahm/sarah-cat:6
+        ports:
+        - containerPort: 3000
+        livenessProbe:
+          httpGet: { path: /, port: 3000 }
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet: { path: /, port: 3000 }
+          initialDelaySeconds: 15
+          periodSeconds: 5
